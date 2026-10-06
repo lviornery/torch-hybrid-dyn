@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 class HybridDynamicsModule(nn.Module):
     def __init__(
-        self, n_state_variables: int, hybrid_state_fn: (Callable | None) = None
+        self, n_state_variables: int, hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None
     ):
         super().__init__()
         self.n_state_variables = n_state_variables
@@ -42,7 +42,7 @@ class AnalyticalForceModule(HybridDynamicsModule):
         self,
         force_fn: Callable,
         n_state_variables: int,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
     ):
         super().__init__(n_state_variables, hybrid_state_fn)
 
@@ -58,7 +58,7 @@ class NeuralForceModule(HybridDynamicsModule):
     def __init__(
         self,
         n_state_variables: int,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         use_time=True,
         use_position=True,
         use_velocity=True,
@@ -119,7 +119,7 @@ class AnalyticalEventModule(HybridDynamicsModule):
         n_state_variables: int,
         cons_pos_module: ConsPos,
         cons_force_module: ConsForce,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         n_constraints=1,
         hybrid_state_index_dict: (bidict | None) = None,
     ):
@@ -174,7 +174,7 @@ class NeuralEventModule(HybridDynamicsModule):
         self,
         force_module: AnalyticalForceModule | NeuralForceModule,
         n_state_variables: int,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         n_constraints=0,
         hybrid_state_index_dict: (bidict | None) = None,
         use_position=True,
@@ -263,7 +263,7 @@ class AnalyticalResetModule(HybridDynamicsModule):
         n_state_variables: int,
         impact_comp_fn: ImpactComp,
         liftoff_comp_fn: LiftoffComp,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         event_module: None = None,
     ):
         super().__init__(n_state_variables, hybrid_state_fn)
@@ -289,7 +289,7 @@ class NeuralResetModule(HybridDynamicsModule):
         self,
         force_module: AnalyticalForceModule | NeuralForceModule,
         n_state_variables: int,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         event_module: AnalyticalEventModule | NeuralEventModule | None = None,
         use_position=True,
         use_velocity=True,
@@ -364,7 +364,7 @@ class AnalyticalDynamicsModule(HybridDynamicsModule):
         event_module: AnalyticalEventModule | NeuralEventModule,
         n_state_variables: int,
         dynamics_fns: Dynamics,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         reduction_modules: None = None,
     ):
         super().__init__(n_state_variables, hybrid_state_fn)
@@ -403,7 +403,7 @@ class NeuralDynamicsModule(HybridDynamicsModule):
         force_module: AnalyticalForceModule | NeuralForceModule,
         event_module: AnalyticalEventModule | NeuralEventModule,
         n_state_variables: int,
-        hybrid_state_fn: (Callable | None) = None,
+        hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
         use_sll=False,
         reduction_modules: (None | list[None | Reduction]) = None,
         use_position=True,

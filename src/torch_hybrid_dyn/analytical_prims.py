@@ -13,7 +13,9 @@ torch.set_default_dtype(torch.float64)
 
 
 class MBar(nn.Module):
-    def __init__(self, entries: list[list[Callable | torch.Tensor]]):
+    def __init__(
+        self, entries: list[list[Callable[[torch.Tensor], torch.Tensor] | torch.Tensor]]
+    ):
         super().__init__()
 
         self.dim = len(entries)
@@ -25,7 +27,9 @@ class MBar(nn.Module):
                 "static_mbar", torch.reshape(torch.stack(entryList), (self.dim, -1))
             )
         else:
-            self.mbar_entries: list[Callable | torch.Tensor] = []
+            self.mbar_entries: list[
+                Callable[[torch.Tensor], torch.Tensor] | torch.Tensor
+            ] = []
             self.is_static = False
             for idx, entry in enumerate(entryList):
                 if torch.is_tensor(entry):
@@ -50,7 +54,9 @@ class MBar(nn.Module):
 
 
 class ARow(nn.Module):
-    def __init__(self, A_constraint: (Callable | torch.Tensor)):
+    def __init__(
+        self, A_constraint: (Callable[[torch.Tensor], torch.Tensor] | torch.Tensor)
+    ):
         super().__init__()
 
         if torch.is_tensor(A_constraint):
@@ -172,24 +178,14 @@ class Lambda(nn.Module):
         return ret
 
 
-class Rhs(nn.Module):
-    def __init__(self):
-        super().__init__()
-
-        self.register_buffer("g", torch.tensor(9.81))
-
-    def forward(self, forces, state):
-        ret = torch.zeros_like(forces)
-        ret[1] = forces[1] - self.g
-        return ret
-
-
 class DerivativeReduction(nn.Module):
     def __init__(
         self,
-        coordinate_transform: None | Callable = None,
-        Y_map: (None | Callable | torch.Tensor) = None,
-        Y_dot_map: (None | Callable | torch.Tensor) = None,
+        coordinate_transform: None | Callable[[torch.Tensor], torch.Tensor] = None,
+        Y_map: (None | Callable[[torch.Tensor], torch.Tensor] | torch.Tensor) = None,
+        Y_dot_map: (
+            None | Callable[[torch.Tensor], torch.Tensor] | torch.Tensor
+        ) = None,
     ):
         super().__init__()
 
@@ -259,7 +255,7 @@ class Reduction(nn.Module):
         self,
         A_rows: list[ARow],
         A_dot_rows: list[ARow],
-        coordinate_reductions: list[Callable],
+        coordinate_reductions: list[Callable[[torch.Tensor], torch.Tensor]],
         derivative_reductions: list[DerivativeReduction],
     ):
         super().__init__()
@@ -448,7 +444,9 @@ class ConsForce(nn.Module):
 
 
 class ConsPos(nn.Module):
-    def __init__(self, position_constraints: list[Callable]):
+    def __init__(
+        self, position_constraints: list[Callable[[torch.Tensor], torch.Tensor]]
+    ):
         super().__init__()
 
         self.position_constraints = position_constraints
@@ -458,12 +456,7 @@ class ConsPos(nn.Module):
     def forward(self, state: torch.Tensor) -> torch.Tensor:
         eq_state = state[:-1]
         return torch.stack(
-            [
-                self.position_constraints[idx](eq_state)
-                if self.position_constraints[idx](eq_state) is not None
-                else torch.tensor(1.0, device=state.device)
-                for idx in self.range_constraints
-            ]
+            [self.position_constraints[idx](eq_state) for idx in self.range_constraints]
         )
 
 
@@ -473,7 +466,7 @@ class ImpactComp(nn.Module):
         mbar: MBar,
         state_mdags: list[None | Mdag],
         state_Adags: list[None | Adag],
-        position_constraints: list[Callable],
+        position_constraints: list[Callable[[torch.Tensor], torch.Tensor]],
         A_constraints: list[ARow],
         state_index_dict: bidict,
         con_thresh: float,

@@ -22,5 +22,5 @@ from .training import (  # noqa: F401
     TrajLossObj,
     get_param_groups,
     parallel_train,
-    single_train
+    single_train,
 )
