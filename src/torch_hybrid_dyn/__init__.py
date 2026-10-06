@@ -21,4 +21,6 @@ from .training import (  # noqa: F401
     SeriesLearnRateMultipliers,
     TrajLossObj,
     get_param_groups,
+    parallel_train,
+    single_train
 )

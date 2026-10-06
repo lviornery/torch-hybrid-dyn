@@ -141,7 +141,7 @@ class NNDynamicsObject(nn.Module):
         t0 = times[0:1]
 
         # Add a terminal time to the event function.
-        def event_fn(t:torch.Tensor, state:torch.Tensor) -> torch.Tensor:
+        def event_fn(t: torch.Tensor, state: torch.Tensor) -> torch.Tensor:
             if t > (times[-1] + self.time_step):
                 return torch.zeros([], device=device)
             event_fval = self.event_module(t, state)
@@ -171,7 +171,7 @@ class NNDynamicsObject(nn.Module):
             state = torch.cat(state, self.event_module.event_params)
 
         all_times = [t0]
-        event_times = []
+        event_times: list[torch.Tensor] = []
 
         hybrid_states = [local_state_object.get_hybrid_state()]
 
