@@ -40,7 +40,7 @@ class HybridDynamicsModule(nn.Module):
 class AnalyticalForceModule(HybridDynamicsModule):
     def __init__(
         self,
-        force_fn: Callable,
+        force_fn: Callable[[torch.Tensor],torch.Tensor],
         n_state_variables: int,
         hybrid_state_fn: (Callable[[],torch.Tensor] | None) = None,
     ):
@@ -50,7 +50,7 @@ class AnalyticalForceModule(HybridDynamicsModule):
 
     def forward(self, t: torch.Tensor, state: torch.Tensor) -> torch.Tensor:
         dyn_state = self.get_dyn_state(state)
-        force = self.force_fn(dyn_state)
+        force = self.force_fn(torch.cat((t,dyn_state)))
         return force
 
 
