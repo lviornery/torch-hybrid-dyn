@@ -17,9 +17,6 @@ dependencies = [
 [tool.uv.sources]
 torchdiffeq = { git = "https://github.com/lviornery/torchdiffeq_initzero", rev = "7e3f0b12fae9d0ca9822cbfa375eea802f3a8d10" }
 
-[project.scripts]
-torch-hybrid-dyn = "torch_hybrid_dyn:main"
-
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
