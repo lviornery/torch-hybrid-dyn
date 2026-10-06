@@ -5,9 +5,9 @@ import torch
 from torch import nn
 
 if TYPE_CHECKING:
-    from collections.abc import Callable  # noqa: TC004
+    from collections.abc import Callable
 
-    import bidict  # noqa: TC004
+    import bidict
 
 torch.set_default_dtype(torch.float64)
 

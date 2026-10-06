@@ -6,11 +6,11 @@ from torch import nn
 from .net import MLP, SLLMLP, FunctionalMLP
 
 if TYPE_CHECKING:
-    from collections.abc import Callable  # noqa: TC004
+    from collections.abc import Callable
 
-    from bidict import bidict  # noqa: TC004
+    from bidict import bidict
 
-    from .analytical_prims import (  # noqa: TC004
+    from .analytical_prims import (
         ConsForce,
         ConsPos,
         Dynamics,

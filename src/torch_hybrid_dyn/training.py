@@ -7,11 +7,11 @@ import torch
 from .util import NetType, SeriesType
 
 if TYPE_CHECKING:
-    from collections.abc import Callable  # noqa: TC004
-    from multiprocessing.synchronize import Lock  # noqa: TC004
+    from collections.abc import Callable
+    from multiprocessing.synchronize import Lock
 
-    from .data import MultiThreadDataloader, SingleThreadDataloader  # noqa: TC004
-    from .solver import NNDynamicsObject  # noqa: TC004
+    from .data import MultiThreadDataloader, SingleThreadDataloader
+    from .solver import NNDynamicsObject
 
 
 class NetLearnRateMultipliers(collections.UserDict):

@@ -15,7 +15,7 @@ from .dyn_mods import (
 if TYPE_CHECKING:
     from bidict import bidict  # noqa: TC004
 
-    from .dyn_mods import (  # noqa: TC004
+    from .dyn_mods import (
         AnalyticalDynamicsModule,
         AnalyticalEventModule,
         AnalyticalForceModule,

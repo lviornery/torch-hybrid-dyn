@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "lviornery", email = "22897341+lviornery@users.noreply.github.com" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
     "bidict>=0.24.1",
     "torch>=2.14.1",
