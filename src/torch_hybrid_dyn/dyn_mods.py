@@ -50,7 +50,7 @@ class AnalyticalForceModule(HybridDynamicsModule):
 
     def forward(self, t: torch.Tensor, state: torch.Tensor) -> torch.Tensor:
         dyn_state = self.get_dyn_state(state)
-        force = self.force_fn(torch.cat((t,dyn_state)))
+        force = self.force_fn(torch.cat((torch.unsqueeze(t, -1),dyn_state)))
         return force
 
 
