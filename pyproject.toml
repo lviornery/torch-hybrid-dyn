@@ -1,0 +1,25 @@
+[project]
+name = "torch-hybrid-dyn"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lviornery", email = "22897341+lviornery@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "bidict>=0.24.1",
+    "torch>=2.14.1",
+    "torchdiffeq>=0.2.5",
+]
+
+
+[tool.uv.sources]
+torchdiffeq = { git = "https://github.com/lviornery/torchdiffeq_initzero", rev = "7e3f0b12fae9d0ca9822cbfa375eea802f3a8d10" }
+
+[project.scripts]
+torch-hybrid-dyn = "torch_hybrid_dyn:main"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
