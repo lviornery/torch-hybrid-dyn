@@ -97,7 +97,7 @@ class TrajLossObj:
     def __init__(
         self,
         n_state_variables: int,
-        loss_power: (float) = 2,
+        loss_power: float = 2,
         normalized_time_scaling_fn: (Callable[[torch.Tensor],torch.Tensor] | None) = None,
         traj_pos_weight=1.0,
         traj_vel_weight=1.0,
