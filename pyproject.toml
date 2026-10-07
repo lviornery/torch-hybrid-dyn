@@ -10,12 +10,12 @@ requires-python = ">=3.14"
 dependencies = [
     "bidict>=0.24.1",
     "torch>=2.14.1",
-    "torchdiffeq>=0.2.5",
+    "torchdiffeq",
 ]
 
 
 [tool.uv.sources]
-torchdiffeq = { git = "https://github.com/lviornery/torchdiffeq_initzero", rev = "7e3f0b12fae9d0ca9822cbfa375eea802f3a8d10" }
+torchdiffeq = { git = "https://github.com/lviornery/torchdiffeq_initzero", rev = "04bae656f2f890504522d3b4fa73b01357a3b617" }
 
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
